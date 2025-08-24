@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Utility;
-
-class OfcParser
+class OFCParser
 {
-    /**
-     * Convertar o array com os dados em string;
-     */
+    private $file;
+
+    public function __construct($file) {
+        $this->file = $file;
+    }
+    
     private function convert($url)
     {
         $string = '';
@@ -18,9 +19,9 @@ class OfcParser
         return $string;
     }
 
-    private function formatArray($file)
+    private function formatArray()
     {
-        $ofc = $this->convert($file);
+        $ofc = $this->convert($this->file);
 
         $OFCArray = explode("<", $ofc);
         $tags = array();
@@ -54,22 +55,11 @@ class OfcParser
         return date_create_from_format('Y-m-d', $date);
     }
 
-    /**
-     *  Realizar a formatação do array, retornando os itens com seus atributos
-        * [
-            *'TRNTYPE' => '0',
-            *'DTPOSTED' => '20200605',
-            *'TRNAMT' => '1030.27',
-            *'FITID' => '51855',
-            *'CHKNUM' => '51855',
-            *'MEMO' => 'DP DIN LOT'
-        *]
-     */
-    public function build($arquivo)
+    public function build()
     {
         $extrato = [];
         
-        $ofc = $this->formatArray($arquivo);
+        $ofc = $this->formatArray();
 
         foreach ($ofc['STMTTRN'] as $index => $value) {
             $extrato[] = [

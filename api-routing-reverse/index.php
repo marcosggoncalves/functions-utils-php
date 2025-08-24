@@ -12,7 +12,6 @@ $request_replace_path = str_replace(GATEWAY_PATH, "", $request_painel['REQUEST_U
 $request_endpoint = API_PATH . $request_replace_path;
 $request_api = curl_init();
 
-
 try {
     curl_setopt_array($request_api, [
         CURLOPT_URL            => $request_endpoint,
